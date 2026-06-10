@@ -30,28 +30,8 @@ app.get('/saludar/:nombre', (req, res) => {
     res.send(`Hola, ${nombre}`);
 });
 
-app.get('/eventos', async(req, res) => {
-
-    const query = `
-        SELECT id, nombre, descripcion, cupo
-        FROM eventos
-    `;
-
-    try{
-        const [results] = await connection.query(query);
-        res.json({
-            success: true,
-            //results: results
-            results
-        });
-    }catch(error){
-        res.status(500).json({
-            success: false,
-            message: 'Error al intentar recuperar los eventos'
-        })
-    }
-
-});
+app.use(require('./src/routes/eventoRoutes'));
+app.use(require('./src/routes/usuarioRoutes'));
 
 // Middleware para manejar el error 404
 app.use((req, res, next) => {
